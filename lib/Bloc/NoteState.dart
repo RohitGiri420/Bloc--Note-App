@@ -1,9 +1,13 @@
+import 'package:bloc_note_app/Model/NoteModel.dart';
+
 class NoteState{}
+
+class InitialState extends NoteState{}
 
 class LoadingState extends NoteState{}
 
 class LoadedState extends NoteState{
-  int arrlist;
+  List<NoteModel> arrlist=[];
   LoadedState({required this.arrlist});
 }
 

@@ -1,6 +1,10 @@
 
+import 'package:bloc_note_app/Bloc/NoteBloc.dart';
+import 'package:bloc_note_app/Bloc/NoteEvent.dart';
+import 'package:bloc_note_app/Model/NoteModel.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc_note_app/widget/ColorHelper.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../widget/UiHelper.dart';
 
@@ -61,7 +65,7 @@ class _AddDataScreenState extends State<AddDataScreen> {
                     ));
                   } else {
 
-                    //code here....................
+                    context.read<NoteBloc>().add(AddDataEvent(noteModel: NoteModel(title: title, desc: desc)));
 
                     Navigator.pop(context);
                   }

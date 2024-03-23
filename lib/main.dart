@@ -1,4 +1,8 @@
+import 'package:bloc_note_app/Bloc/NoteBloc.dart';
+import 'package:bloc_note_app/Database/DbHelper.dart';
+import 'package:bloc_note_app/Screens/HomePage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,12 +13,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
+    return BlocProvider(
+      create: (context) => NoteBloc(dbHelper: DbHelper()),
+      child: MaterialApp(
 
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        home: HomePage(),
+
       ),
     );
   }
