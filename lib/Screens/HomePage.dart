@@ -46,6 +46,10 @@ class _HomePageState extends State<HomePage> {
               title: Text("${state.arrlist[index].title}"),
               subtitle: Text("${state.arrlist[index].desc}"),
               leading: Text("${state.arrlist[index].id}"),
+              trailing: IconButton(onPressed: () {
+                context.read<NoteBloc>().add(DeleteDataEvent(id: state.arrlist[index].id!));
+              },
+              icon: Icon(Icons.delete),),
             );
 
           },

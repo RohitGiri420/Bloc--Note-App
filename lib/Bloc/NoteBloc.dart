@@ -2,7 +2,6 @@ import 'package:bloc_note_app/Bloc/NoteEvent.dart';
 import 'package:bloc_note_app/Bloc/NoteState.dart';
 import 'package:bloc_note_app/Model/NoteModel.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../Database/DbHelper.dart';
 
 class NoteBloc extends Bloc<NoteEvent,NoteState>{
@@ -36,8 +35,15 @@ class NoteBloc extends Bloc<NoteEvent,NoteState>{
         emit(LoadedState(arrlist: arrlist));
       }
       else{
-        emit(ErrorState(ErrorMessage: "Getting error while updating the data"));
+        emit(ErrorState(ErrorMessage:"Getting error while updating the data"));
       }
+    });
+
+    on<DeleteDataEvent>((event,emit) async {
+      emit(LoadingState());
+      dbHelper.DeleteNote(event.id);
+      List<NoteModel>arrlist = await dbHelper.GetData();
+      emit(LoadedState(arrlist: arrlist));
     });
   }
 

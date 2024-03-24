@@ -55,4 +55,9 @@ class DbHelper{
     var check = await db.update(TableName, noteModel.ToMap(),where: "$NoteID = ${noteModel.id}");
     return check>0;
   }
-}
+  
+  Future DeleteNote(int id) async{
+    var db = await getDb();
+    db.delete(TableName,where: "$NoteID=?",whereArgs: [id.toString()]);
+  }
+  }
