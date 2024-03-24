@@ -21,5 +21,24 @@ class NoteBloc extends Bloc<NoteEvent,NoteState>{
         emit(ErrorState(ErrorMessage: "getting error while adding the data"));
       }
     });
+
+    on<FetchDataEvent>((event,emit)async{
+      emit(LoadingState());
+      List<NoteModel> arrlist = await dbHelper.GetData();
+      emit(LoadedState(arrlist: arrlist));
+    });
+
+    on<UpdateDataEvent>((event,emit)async{
+      emit(LoadingState());
+      bool check =await  dbHelper.UpdatNote(event.noteModel);
+      if(check){
+        List<NoteModel>arrlist = await dbHelper.GetData();
+        emit(LoadedState(arrlist: arrlist));
+      }
+      else{
+        emit(ErrorState(ErrorMessage: "Getting error while updating the data"));
+      }
+    });
   }
+
 }

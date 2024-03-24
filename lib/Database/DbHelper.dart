@@ -25,7 +25,7 @@ class DbHelper{
     Directory directory = await getApplicationDocumentsDirectory();
     var path = join(directory.path,"NoteDb");
     _database= await openDatabase(path,version: 1,onCreate: (db, version) {
-          db.execute("CREATE TABLE $TableName($NoteID INTEGER AUTOINCREMENT PRIMARY KEY,$NoteTitle TEXT, $NoteDesc TEXT)");
+          db.execute("Create Table $TableName($NoteID integer primary key autoincrement,$NoteTitle text,$NoteDesc text)");
     },);
 
     return _database!;
@@ -48,5 +48,11 @@ class DbHelper{
     }
     return arrList;
 
+  }
+
+  Future<bool> UpdatNote(NoteModel noteModel) async{
+    var db = await getDb();
+    var check = await db.update(TableName, noteModel.ToMap(),where: "$NoteID = ${noteModel.id}");
+    return check>0;
   }
 }

@@ -1,28 +1,26 @@
-
 import 'package:bloc_note_app/Bloc/NoteBloc.dart';
 import 'package:bloc_note_app/Bloc/NoteEvent.dart';
 import 'package:bloc_note_app/Model/NoteModel.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc_note_app/widget/ColorHelper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../widget/UiHelper.dart';
 
-class AddDataScreen extends StatefulWidget {
-  const AddDataScreen({super.key});
+class UpdateDataScreen extends StatefulWidget {
+  int id;
+  UpdateDataScreen({required this.id,super.key});
 
   @override
-  State<AddDataScreen> createState() => _AddDataScreenState();
+  State<UpdateDataScreen> createState() => _UpdateDataScreenState();
 }
 
-class _AddDataScreenState extends State<AddDataScreen> {
-
+class _UpdateDataScreenState extends State<UpdateDataScreen> {
   @override
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController titleController = TextEditingController();
-    TextEditingController descController = TextEditingController();
+    TextEditingController utitleController = TextEditingController();
+    TextEditingController udescController = TextEditingController();
     UiHelper uiHelper = UiHelper();
     return Scaffold(
       appBar: AppBar(
@@ -36,21 +34,18 @@ class _AddDataScreenState extends State<AddDataScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
 
-
               SizedBox(height: 30,),
-              Text("Add Note",style: TextStyle(color: colorHelper.Black,fontFamily: "Medium",fontSize: 40,fontWeight: FontWeight.w600),),
+              Text("Update Note",style: TextStyle(color: colorHelper.Black,fontFamily: "Medium",fontSize: 40,fontWeight: FontWeight.w600),),
               SizedBox(height: 15,),
-              uiHelper.CustomTextField(1, "Title", titleController),
-              uiHelper.CustomTextField(6, "Description", descController),
+              uiHelper.CustomTextField(1, "Title", utitleController),
+              uiHelper.CustomTextField(6, "Description", udescController),
               uiHelper.CustomButton(
-                "Save Note",
+                "Save Changes",
                     () {
-                  String title = titleController.text;
-                  String desc = descController.text;
+                  String title = utitleController.text;
+                  String desc = udescController.text;
                   if (title == "" || desc == "") {
-
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-
                       content: Row(
                         children: [
                           Icon(Icons.error_outline,color: Colors.white,),
@@ -58,15 +53,13 @@ class _AddDataScreenState extends State<AddDataScreen> {
                           Text("Enter Required Field",style: TextStyle(fontFamily: 'regular'),),
                         ],
                       ),
-                      backgroundColor: colorHelper.Black,
                       action: SnackBarAction(label: "Ok", onPressed: (){
                         ScaffoldMessenger.of(context).hideCurrentSnackBar();
                       }),
                     ));
-                  }
-                  else {
-                    context.read<NoteBloc>().add(AddDataEvent(noteModel: NoteModel(title: title, desc: desc)));
-                    Navigator.pop(context);
+                  } else {
+                    context.read<NoteBloc>().add(UpdateDataEvent(noteModel: NoteModel(title: title, desc: desc,id: widget.id)));
+                   Navigator.pop(context);
                   }
                 },
               )
